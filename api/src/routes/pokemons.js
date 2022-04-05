@@ -1,63 +1,52 @@
 const { Router } = require('express');
 const { Pokemon, Type } = require('../db.js');
-const { info, forName, forId } = require('../middleware.js');
+const{getPokemonById, getAllPokemons, getPokemonsByName} = require('../utilities/getPok.js')
 const router = Router();
+const {Op} = require('sequelize');
 
-//get -> trae todos los pokemons
-router.get("/", async (req, res) => {
-    let {name, by} = req.query;
-    let pokemonInfo = [];
-    if (name){
-        name = name.toLowerCase();
-        pokemonInfo = await forName(name);
-        if (!pokemonInfo.length){
-            return res.json({ info: "No se encontro el pokemon"});
-        //retorna el pokemon
-        }return res.json(pokemonInfo);   
+router.get('/', async (req, res, next) => {
+    const {name} = req.query;
+    try{
+        if(name){
+            return res.json(await getPokemonsByName(name));
+        }
+        return res.json(await getAllPokemons());
+    }catch(err){
+        res.status(400).send(err.message);
     }
-    pokemonInfo= await info(by);
-    if (!pokemonInfo.length){
-        return res.json({ info: "No hay mas registros"})
-    }
-    res.json(pokemonInfo);
-    
 });
 
+router.get('/:id', async (req, res, next) => {
+    const {id} = req.params;
+    try{
+        return res.json(await getPokemonById(id));
+    }catch(err){
+        res.status(400).send(err.message);
+    }
+}); 
 
-
-//get/:id -> busca un pokemon por ID
-router.get("/:id", async (req, res) => {
-    const id = req.params;
-    const pokemonInfo = await forId(id);
-    if (!pokemonInfo.id) return res.json({ info: "No se encontro el pokemon"});
-    res.json(pokemonInfo);
-});
-
-//post -> crea un pokemon
-router.post("/", async (req, res) => {
-    let {name, health, strength, defense, height, weight, speed} = req.body;
-    if(isNaN(health) ||
-        isNaN(strength) ||
-        isNaN(defense) ||
-        isNaN(height) ||
-        isNaN(weight) ||
-        isNaN(speed))
-        return res.json({info :"Alguno de los argumentos no es un numero"});
-    if (!name) return res.json({info: "El nombre es obligatorio"});
-
-    //busca si el nombre ya existe
-    const exist = await Pokemon.findOne({where: {name: name}});
-    if(exist) return res.json({info: "El pokemon ya existe"});
-
-    const pokemon = await Pokemon.create({
-        name: name.toLowerCase(),
-
-    });
-
-    if (!tipos.length) tipos = [1];
-
-    await pokemon.setTipos(tipos);
-    res.json({info: "Pokemon creado"});
+router.post('/', async (req, res, next) => {
+    const pokemon = req.body;
+    try{
+        const newPokemon = await Pokemon.create(pokemon);
+        const type = await Type.findAll({
+            where: {
+                id: {
+                    [Op.in]: pokemon.typesIds 
+                }
+            }
+        });
+        await newPokemon.setTypes(types);
+        const newObj = await Pokemon.findOne({
+            where: {
+                name: pokemon.name
+            },
+            include: Type
+        })
+        res.status(201).json(newObj);
+    }catch(err){
+        res.status(400).json(err.message);
+    }
 })
 
 
