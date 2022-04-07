@@ -1,0 +1,22 @@
+.poke-cards-window{
+    padding: 4em 10%;
+    height: 700px;
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(6, minmax(200px,1fr));
+    grid-auto-rows: minmax(auto, 350px);
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.loading-gif{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+.poke-cards-window-background{
+    background-image: url("https://wallpaperaccess.com/full/3551101.png");
+}
