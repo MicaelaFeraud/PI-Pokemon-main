@@ -1,0 +1,5 @@
+.nav-bar-configure{
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 15fr;
+}
