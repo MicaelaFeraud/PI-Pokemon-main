@@ -1,42 +1,34 @@
-import {useNative} from 'react-router-dom';
-import {selectPokemonByName, setPokemonSearch} from '../../Actions/mainAction';
-import {connect} from "react-redux";
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { getPokemons } from '../../actions';
+import styles from './SearchBar.module.css'
+import search from '../../img/search.png'
 
-function SearchBar(props) {
+function SearchBar({ resetPaginate }) {
+      const dispatch = useDispatch()
 
-    const navigate = useNative();
-    const input = props.filtersForPokemons.name;
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        e.target.reset();
-        props.selectPokemonByName(input);
-        navigate("pokemons/selectedPokemon");
-    }
+      function handleSubmit(event) {
+            event.preventDefault();
+            dispatch(getPokemons(document.getElementById('input_pokemon_name').value.toLowerCase()))
+            resetPaginate()
+            document.getElementById('input_pokemon_name').value = "";
+      }
+      return (
+            <div >
+                  <form className={styles.search_bar} onSubmit={(event) => handleSubmit(event)} >
 
-    const handleChange = (e) => {000
-        props.setPokemonSearch(e.target.value);
-    }
+                        <input
+                              className={styles.search_input}
+                              id='input_pokemon_name'
+                              name="name"
+                              type="text"
+                              placeholder="Search by name..."
+                              autoComplete='off' />
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <label>Search: </label>
-            <input type="text" value={input} onChange={handleChange}/>
-        </form>
-    );
-  }
+                        <input type="image" width="30px" src={search} className={styles.search_submit} />
+                  </form>
+            </div >
+      )
+}
 
-  function mapStateToProps(state) {
-    return {
-      filtersForPokemons: state.filtersForPokemons
-  };
-  }
-  
-  const mapDispatchToProps = {
-    selectPokemonByName,
-    setPokemonSearch
-  }
-  
-  export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(SearchBar);
+export default SearchBar

@@ -1,0 +1,65 @@
+.nav_bar {
+    top: 0;
+    width: 100%;
+    background-color: #1d2c5eda;
+    position: fixed;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    font-family: "Fredoka", sans-serif;
+    box-shadow: 1px 0px 5px #000;
+}
+.logo {
+    width: 130px;
+}
+.filters {
+    display: flex;
+    flex-direction: row;
+    font-family: "Fredoka", sans-serif;
+}
+
+.select {
+    border: 2px solid #f10404;
+    outline: none;
+    letter-spacing: 1.5px;
+    border-radius: 10px;
+    margin: 0 1rem;
+    text-align: center;
+    font-family: "Fredoka", sans-serif;
+    width: 100px;
+    height: 25px;
+}
+.select:hover {
+    cursor: pointer;
+}
+option {
+    font-family: "Fredoka", sans-serif;
+}
+
+.create_button {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding: 10px 15px;
+    background-color: #fff;
+    font-family: "Fredoka", sans-serif;
+    font-weight: bolder;
+    font-size: 1rem;
+    border: 2px solid #000;
+    border-radius: 100px;
+    color: #f10404;
+}
+
+.pokeball_drawing {
+    width: 20px;
+}
+
+.create_button > label:hover {
+    cursor: pointer;
+}
+.create_button:hover {
+    cursor: pointer;
+}

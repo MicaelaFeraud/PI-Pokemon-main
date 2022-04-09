@@ -1,0 +1,28 @@
+.search_bar {
+    background-color: transparent;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    border-radius: 20px;
+    align-items: center;
+    padding: 4px 12px;
+    border: 2px solid #fff;
+}
+
+.search_input {
+    color: #fff;
+    font-family: "Fredoka", sans-serif;
+    font-weight: 400;
+    padding: 5px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.search_input::placeholder {
+    color: #fff;
+}
+.search_submit {
+    width: 20px;
+    height: 20px;
+}
