@@ -1,14 +1,14 @@
 import {selectPokemonsByName} from "../../Actions/mainAction";
 import "./PokeCard.css";
-import {useHistory} from 'react-router-dom';
+import {useNative} from 'react-router-dom';
 import {connect} from "react-redux";
 
 function PokeCard(props) {
     const {pokemon} = props;
-    const {push} = useHistory();
+    const navigate = useNative();
     const handlePokeCardClick= () =>{
         props.selectPokemonsByName(pokemon.name);
-        push("pokemons/selectedPokemon");
+        navigate("pokemons/selectedPokemon");
     }
     return(
         <button className="poke-card-button" onClick={handlePokeCardClick}>

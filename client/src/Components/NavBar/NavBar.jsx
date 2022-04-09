@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import FilterForType from '../FilterForType/FilterForType';
 import SearchBar from '../SearchBar/SearchBar';
 import OrderSelector from '../OrderSelector/OrderSelector';
-import HomeButton from './HomeButton/HomeButton';
+import HomeButton from './HomeButton.jsx';
 import CustomPokemonsButton from './CustomPokemonsButton';
 
 export default function NavBar(){

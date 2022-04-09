@@ -15,7 +15,7 @@ function PokeCards(props) {
     return (
       <div className="poke-cards-window-background" >
           <div className="poke-cards-window">
-            {props.displayedPokemons.map((p) => <PokeCard key={pokemon.id} pokemon={pokemon} />)}
+            {props.displayedPokemons.map((pokemon) => <PokeCard key={pokemon.id} pokemon={pokemon} />)}
           </div>
           <div>
               <PaginationBar/>

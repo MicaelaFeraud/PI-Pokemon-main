@@ -1,37 +1,42 @@
-import {useHistory} from 'react-router-dom';
-import {selectPokemonsByName, setPokemonSearch} from '../../Actions/mainAction';
+import {useNative} from 'react-router-dom';
+import {selectPokemonByName, setPokemonSearch} from '../../Actions/mainAction';
 import {connect} from "react-redux";
 
 function SearchBar(props) {
-    const {push} = useHistory();
+
+    const navigate = useNative();
     const input = props.filtersForPokemons.name;
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e) => {
         e.preventDefault();
         e.target.reset();
-        props.selectPokemonsByName(input);
-        push("pokemons/selectedPokemon");
+        props.selectPokemonByName(input);
+        navigate("pokemons/selectedPokemon");
     }
-    const handleChange = (e) =>{
+
+    const handleChange = (e) => {000
         props.setPokemonSearch(e.target.value);
     }
+
     return (
         <form onSubmit={handleSubmit}>
             <label>Search: </label>
             <input type="text" value={input} onChange={handleChange}/>
         </form>
     );
-}
+  }
 
-function mapStateToProps(state) {
+  function mapStateToProps(state) {
     return {
-        filtersForPokemons: state.filtersForPokemons
-    };
-}
-const mapStateToProps = {
-    selectPokemonsByName,
+      filtersForPokemons: state.filtersForPokemons
+  };
+  }
+  
+  const mapDispatchToProps = {
+    selectPokemonByName,
     setPokemonSearch
-}
-export default connect(
+  }
+  
+  export default connect(
     mapStateToProps,
     mapDispatchToProps
-    )(SearchBar);
+  )(SearchBar);

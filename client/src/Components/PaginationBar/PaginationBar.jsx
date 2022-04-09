@@ -1,71 +1,84 @@
-import './PaginationBar.css';
-import {connect} from 'react-redux';
-import {selectPage} from '../../Actions/mainAction';
-import { useEffect, UseState } from 'react';
+import "./PaginationBar.css";
+import { connect } from "react-redux";
+import { selectPage } from "../../Actions/mainAction";
+import { useEffect, useState } from "react";
 
-export const PokemonPerPage = 12;
+export const PokemonsPerPage = 12;
 
-function PaginationBar() {
-    useEffect(() =>{
-        setSelectedPageNumber(1);
-        props.selectPage(1);
+function PaginationBar(props) { 
+
+    useEffect(() => {
+      setSelectedPageNumber(1);
+      props.selectPage(1);
     }, [props.filteredPokemons])
 
     const [selectedPageNumber, setSelectedPageNumber] = useState(1);
     const numOfPagesOnBar = 3;
     let totalNumberOfPages = 0;
 
-    const handleClick = (newPageNumber) =>{
+    const handleClick = (newPageNumber) => {
         setSelectedPageNumber(newPageNumber);
-        props.filteredPokemons.forEach((_p,i) => {
-            let pageNumber = (i/PokemonPerPage)+1;
-            if((i)%PokemonPerPage === 0){
-                numeration.push(<button key={1} className={pageNumber===selectedPage ? 'pagination-numbers active' : 'pagination-numbers'} onClick={()=>handleClick(pageNumber)}>{pageNumber}</button>);
-            }
+        props.selectPage(newPageNumber);
+    }
+
+    const renderPageNumeration = () => {
+        let numeration = []
+        props.filteredPokemons.forEach((_p,i)=> {
+            let pageNumber = (i/PokemonsPerPage)+1;
+            if((i)%PokemonsPerPage===0)
+                numeration.push(<button key={i} className={pageNumber===selectedPageNumber ? 'pagination-numbers active' : 'pagination-numbers' } onClick={()=>handleClick(pageNumber)}>{pageNumber}</button>);
         })
         totalNumberOfPages = numeration.length;
-        if (totalNumber=== 1) return [];
+        if(totalNumberOfPages === 1)
+          return [];
         if(selectedPageNumber > totalNumberOfPages - numOfPagesOnBar/2){
-            return numeration.slice(-numOfPagesOnBar)
+            return numeration.splice(-numOfPagesOnBar);
         }
-        if(selectedPageNumber>numOfPagesOnBar-1){
+        if(selectedPageNumber > numOfPagesOnBar-1){
             return numeration.slice(selectedPageNumber-(numOfPagesOnBar-1), selectedPageNumber+(numOfPagesOnBar-2));
-        }
-        return numeration.slice(0, numOfPagesOnBar);
+        }        
+        return numeration.slice(0,numOfPagesOnBar);
     }
+
     const renderPrevButton = () => {
         let result = [];
-        if (selectedPageNumber > 1){result.push(<button className="pagination-buttons" inClick={() => handleClick(pageNumber)}>{selectedPageNumber}Prev</button>)}
-        if(selectedPageNumber>(numOfPagesOnBar/2 + 1)) {result.push(<span className="pagination-buttons">...</span>)}
+        if(selectedPageNumber > 1)
+         result.push(<button className="pagination-buttons" onClick={()=>handleClick(selectedPageNumber-1)}>Prev</button>);       
+        if(selectedPageNumber>(numOfPagesOnBar/2 + 1))
+            result.push(<span className="pagination-buttons">...</span>);
         return result;
     }
+
     const renderNextButton = () => {
         let result = [];
-        if (selectedPageNumber<(totalNumberOfPages - numOfPagesOnBar/2)) {
-            result.push(<span className="pagination-buttons">...</span>)}
-        if (selectedPageNumber < totalNumberOfPages){
-            result.push(<button className="pagination-buttons" onClick={() => handleClick(selectedPageNumber + 1)}>Next</button>)}
-        return result;    
+        if(selectedPageNumber<(totalNumberOfPages - numOfPagesOnBar/2))
+            result.push(<span className="pagination-buttons">...</span>);
+        if(selectedPageNumber < totalNumberOfPages)
+            result.push(<button className="pagination-buttons" onClick={()=>handleClick(selectedPageNumber+1)}>Next</button>);       
+        return result;
     }
-    return(
-        <div>
-            <div className="pagination-bar">
-                {renderPrevButton()}
-                {renderPageNumeration()}
-                {renderNextButton()}
-            </div>
-        </div>
-    );
+
+  return (
+    <div>
+      <div className="pagination-bar">
+        {renderPrevButton()}
+        {renderPageNumeration()}
+        {renderNextButton()}
+      </div>
+    </div>
+  );
 }
 const mapDispatchToProps = {
     selectPage
-}
-function mapStateToProps(state){
-    return{
+  }
+
+function mapStateToProps(state) {
+    return {
         filteredPokemons: state.filteredPokemons,
     };
-}
-export default connect(
+  }
+  
+  export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(PaginationBar);
+  )(PaginationBar);

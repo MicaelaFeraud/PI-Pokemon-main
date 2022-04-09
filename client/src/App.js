@@ -31,11 +31,9 @@ function App(props) {
   
   return (
     <>
-    <Switch>
       <Route exact path="/" component={LandingPage}/>
       <Route path="/pokemons" component={Home}/>
       <Route path="/*" component={UrlError}/>
-    </Switch>
     </>
   );
 }

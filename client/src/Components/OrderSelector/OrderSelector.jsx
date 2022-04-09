@@ -9,7 +9,7 @@ function OrderSelector(props) {
         setSelectedOrder(selectedOrder);
         props.setOrderPokemonsBy(selectFunction(selectedOrder));
     }
-    const selectFunction = (select) => {
+    const selectFunction = (targetFunction) => {
         switch(targetFunction) {
             case "alphaAscen":
                 return alphaAscen;
