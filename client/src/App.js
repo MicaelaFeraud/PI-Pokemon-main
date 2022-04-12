@@ -1,22 +1,24 @@
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { LandingPage } from "./components/LandingPage/LandingPage.jsx";
+import { Home } from "./components/HomePage/HomePage.jsx";
+import { Create } from "./components/Create/Create.jsx";
+import { Details } from "./components/Details/Details.jsx";
+import { ErrorPage } from "./components/ErrorPage/ErrorPage.jsx";
 import "./App.css";
-import Pokemons from "./components/Pokemons/Pokemons";
-import Home from "./components/Home/Home";
-import DetailPokemon from "./components/DetailPokemon/DetailPokemon";
-import { Route, Routes } from "react-router-dom";
-import PostPokemon from "./components/PostPokemon/PostPokemon";
 
 function App() {
-    return (
-        <div className="App">
-            <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route path="/home" element={<Pokemons />} />
-                <Route path="/pokemon/:id" element={<DetailPokemon />} />
-                <Route path="/create" element={<PostPokemon />} />
-                <Route path="*" element={<Home />} />
-            </Routes>
-        </div>
-    );
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route exact path="/" element={<LandingPage />} />
+        <Route exact path="/pokemon/index" element={<Home />} />
+        <Route exact path="/pokemon/:id" element={<Details />} />
+        <Route exact path="/create" element={<Create />} />
+        {/* <Route exact path="/about" element={<AbautMe />} /> */}
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
 export default App;

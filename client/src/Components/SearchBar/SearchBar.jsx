@@ -1,34 +1,40 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { getPokemons } from '../../actions';
-import styles from './SearchBar.module.css'
-import search from '../../img/search.png'
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { getPokemonName } from "../../actions/pokemon.actions";
+import "./SearchBarStyles.css";
 
-function SearchBar({ resetPaginate }) {
-      const dispatch = useDispatch()
+export function SearchBar() {
+  const dispatch = useDispatch();
+  const [name, setName] = useState("");
 
-      function handleSubmit(event) {
-            event.preventDefault();
-            dispatch(getPokemons(document.getElementById('input_pokemon_name').value.toLowerCase()))
-            resetPaginate()
-            document.getElementById('input_pokemon_name').value = "";
-      }
-      return (
-            <div >
-                  <form className={styles.search_bar} onSubmit={(event) => handleSubmit(event)} >
+  //Handle del input
+  function handleInputChange(e) {
+    e.preventDefault();
+    setName(e.target.value);
+  }
+  //Handle del serach
+  function handleSubmit(e) {
+    e.preventDefault();
+    /* if (!name || name === "" || !name.trim().length) {
+      return;
+    } */
+    dispatch(getPokemonName(name.toLowerCase()));
+    setName("");
+  }
 
-                        <input
-                              className={styles.search_input}
-                              id='input_pokemon_name'
-                              name="name"
-                              type="text"
-                              placeholder="Search by name..."
-                              autoComplete='off' />
-
-                        <input type="image" width="30px" src={search} className={styles.search_submit} />
-                  </form>
-            </div >
-      )
+  return (
+    <div class="search-container">
+      <input
+        value={name}
+        class="input-search"
+        onChange={(e) => handleInputChange(e)}
+        type="text"
+        placeholder="¿Cómo se llama el Pokémon?"
+      />
+      <button class="btn-search" onClick={(e) => handleSubmit(e)} type="submit">
+        Buscar
+      </button>
+    </div>
+  );
 }
-
-export default SearchBar
