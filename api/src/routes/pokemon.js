@@ -5,7 +5,7 @@ const {
   getPokemon,
   getID,
   postPokemon,
-} = require("../controller/pokemon.controller");
+} = require("../controller/pokemon.js");
 
 router.get("/index", getPokemon);
 router.get("/:id", getID);
